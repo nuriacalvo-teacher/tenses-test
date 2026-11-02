@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verb Tenses &amp; Irregular Verbs – Test</title>
+<style>
+:root{--ink:#1b2a41;--muted:#5b6b82;--paper:#fbfcfe;--line:#d5dce8;--accent:#2b59c3;--ok:#1a7f3c;--okbg:#e6f5ec;--bad:#c62828;--badbg:#fdeaea}
+*{box-sizing:border-box}
+body{margin:0;background:#eef2f8;color:var(--ink);font:17px/1.6 Georgia,"Times New Roman",serif}
+header{position:sticky;top:0;z-index:5;background:var(--ink);color:#fff;padding:12px 20px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between}
+header h1{font:700 19px/1.2 system-ui,Segoe UI,Arial,sans-serif;margin:0}
+.name{font:15px system-ui,Arial,sans-serif;display:flex;gap:8px;align-items:center}
+.name input{padding:6px 10px;border-radius:6px;border:0;width:210px;font:15px system-ui,Arial,sans-serif}
+#score{font:700 20px system-ui,Arial,sans-serif;background:#fff;color:var(--ink);border-radius:8px;padding:4px 14px;min-width:110px;text-align:center}
+main{max-width:860px;margin:24px auto;padding:0 16px 60px}
+section{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:24px 28px;margin-bottom:22px}
+h2{font:700 21px system-ui,Arial,sans-serif;margin:0 0 6px}
+.pts{color:var(--muted);font:14px system-ui,Arial,sans-serif;margin:0 0 18px}
+.q{padding:12px 0;border-top:1px solid var(--line)}
+.q:first-of-type{border-top:0}
+.row{display:flex;gap:12px;align-items:baseline}
+.n{font:700 15px system-ui,Arial,sans-serif;color:var(--accent);min-width:24px}
+.sent{flex:1}
+.hint{font:italic 15px system-ui,Arial,sans-serif;color:var(--muted)}
+input.g{font:inherit;font-size:16px;color:var(--ink);border:0;border-bottom:2px solid var(--accent);background:#f1f5fd;padding:2px 8px;width:15em;max-width:100%;margin:2px 4px;border-radius:4px 4px 0 0}
+input.g:focus{outline:none;background:#e3ebfb}
+input.g.ok{border-color:var(--ok);background:var(--okbg);color:var(--ok);font-weight:700}
+input.g.bad{border-color:var(--bad);background:var(--badbg);color:var(--bad);font-weight:700}
+.fb{margin:8px 0 0 36px;font:14px/1.5 system-ui,Arial,sans-serif;color:var(--bad);border-left:3px solid var(--bad);background:#fff7f7;padding:6px 12px;border-radius:0 6px 6px 0}
+.fb div,.b-fb div{margin:3px 0}
+.fb b,.b-fb b{color:var(--ok)}
+.fb .e{color:var(--bad)}.fb .e b{color:var(--bad)}
+.fb .r,.b-fb .r{color:var(--ink)}.fb .r b,.b-fb .r b{color:var(--accent)}
+table{width:100%;border-collapse:collapse;font:15px system-ui,Arial,sans-serif}
+th,td{padding:8px 6px;text-align:left;border-bottom:1px solid var(--line)}
+td input.g{width:100%;margin:0}
+.b-fb{font:14px/1.5 system-ui,Arial,sans-serif;color:var(--bad)}
+.b-fb .e{color:var(--bad)}.b-fb .e b{color:var(--bad)}
+.actions{display:flex;gap:12px;flex-wrap:wrap}
+button{font:700 16px system-ui,Arial,sans-serif;border:0;border-radius:8px;padding:12px 26px;cursor:pointer}
+#check{background:var(--accent);color:#fff}
+#check:hover{background:#214aa6}
+.sec{background:#fff;color:var(--ink);border:2px solid var(--line)}
+#res{display:none;text-align:center}
+#res .big{font:700 44px system-ui,Arial,sans-serif}
+#res p{margin:4px 0}
+button:focus-visible,input:focus-visible{outline:3px solid #f0a500;outline-offset:2px}
+@media print{header .name input{border:0;border-bottom:1px solid #000}.actions{display:none}body{background:#fff}header{position:static}}
+@media(max-width:600px){section{padding:16px}.fb{margin-left:0}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Verb Tenses &amp; Irregular Verbs</h1>
+  <label class="name">Name: <input id="student" type="text" autocomplete="off"></label>
+  <div id="score" aria-live="polite">— / 20</div>
+</header>
+<main>
+  <section>
+    <h2>Part A: Fill in the gaps</h2>
+    <p class="pts">15 points · Write the <b>subject and the verb</b> in the correct form, using the words in brackets. Add the auxiliary when it is needed (questions and negatives). Only one tense is possible in each sentence, so look at the key words.</p>
+    <div id="partA"></div>
+  </section>
+  <section>
+    <h2>Part B: Irregular verbs</h2>
+    <p class="pts">5 points · Write the infinitive, past simple and past participle. All three forms must be correct to get the point.</p>
+    <table><thead><tr><th>Spanish</th><th>Infinitive</th><th>Past simple</th><th>Past participle</th></tr></thead><tbody id="partB"></tbody></table>
+  </section>
+  <section id="res"></section>
+  <div class="actions">
+    <button id="check">Check my answers</button>
+    <button class="sec" id="reset">Start again</button>
+    <button class="sec" id="print">Print result</button>
+  </div>
+</main>
+<script>
+var F={pp:["Past perfect","had + past participle"],fc:["Future continuous","will be + verb-ing"],pc:["Present continuous","am/is/are + verb-ing"],ps:["Past simple","past form of the verb"],prp:["Present perfect","have/has + past participle"],fp:["Future perfect","will have + past participle"],fw:["Future with will","will + infinitive"],prpc:["Present perfect continuous","have/has been + verb-ing"],pres:["Present simple","infinitive, with -s for he/she/it"],pastc:["Past continuous","was/were + verb-ing"],gt:["Be going to","am/is/are going to + infinitive"],oth:["a different tense",""]};
+// [before, hint, after, answers, tense, type (a/q/n), rule, [v1,v2,v3], tail, irregular?]
+var A=[
+["By the time the police arrived,","(the thieves / steal)","the jewels and disappeared.",["the thieves had stolen"],"pp","a","We use the past perfect for an action that happened BEFORE another past action. First the thieves stole the jewels, then the police arrived (by the time + past simple).",["steal","stole","stolen"],"stolen",1],
+["Give me the hotel number: where","(you / stay)","this time next week?",["will you be staying"],"fc","q","The future continuous shows an action in progress at a specific moment in the future (this time next week). Question: will + subject + be + verb-ing.",["stay","stayed","stayed"],"staying",0],
+["Look!","(it / not / rain)","any more, so we can go out.",["it isn't raining","it is not raining"],"pc","n","Look! and any more point to NOW, so we use the present continuous. Negative: subject + am/is/are + not + verb-ing.",["rain","rained","rained"],"raining",0],
+["Yesterday","(I / tear)","my favourite jeans while I was climbing over the fence.",["i tore"],"ps","a","Yesterday is a finished time, so we use the past simple. Never the present perfect with a finished time.",["tear","tore","torn"],"tore",1],
+["How many exams","(you / have)","so far this week?",["have you had"],"prp","q","So far this week is an unfinished period, so we use the present perfect. Question: have + subject + past participle. Here HAVE is the auxiliary and HAD (the participle of have) is the main verb.",["have","had","had"],"had",1],
+["A: “I can't do this exercise. It's too difficult!” B (offering to help right now): “Don't worry,","(I / help)","you!”",["i'll help","i will help"],"fw","a","Will is used for decisions made at the moment of speaking and for offers. B had no plan before: she decides when she hears the problem. Form: will ('ll) + infinitive. (Be going to is for plans decided BEFORE speaking.)",["help","helped","helped"],"help",0],
+["I promise that from now on","(I / not / tell)","anybody your secrets.",["i won't tell","i will not tell"],"fw","n","A promise about the future uses will. Negative: subject + won't (will not) + infinitive, with no to and no -s.",["tell","told","told"],"tell",0],
+["How long","(you / paint)","the kitchen? You started at seven and you still haven't finished!",["have you been painting"],"prpc","q","How long + an activity that started in the past and continues now: present perfect continuous. Question: How long + have/has + subject + been + verb-ing.",["paint","painted","painted"],"painting",0],
+["Two days ago,","(a dog / bite)","the postman.",["a dog bit"],"ps","a","Two days ago is a finished time, so we use the past simple. Ago never goes with the present perfect.",["bite","bit","bitten"],"bit",1],
+["What","(your parents / do)","for a living?",["do your parents do"],"pres","q","Jobs and habits use the present simple. In questions we need the auxiliary do/does before the subject. The first DO is the auxiliary and the second DO is the main verb.",["do","did","done"],"do",1],
+["Mia was crying because","(she / hide)","her toy so well that she couldn't find it herself.",["she had hidden"],"pp","a","Because explains a past situation (she was crying) with an action that happened EARLIER: past perfect.",["hide","hid","hidden"],"hidden",1],
+["According to the airline's timetable,","(our flight to Rome / not / take off)","on Sundays, so we have to travel on Saturday.",["our flight to rome doesn't take off","our flight to rome does not take off"],"pres","n","A regular, fixed timetable (according to the airline's timetable, on Sundays) uses the present simple. Will would be a prediction, not a schedule. Negative with he/she/it: doesn't + infinitive (not doesn't takes).",["take off","took off","taken off"],"take off",0],
+["Look at that car! It's out of control!","(it / crash)","into the wall!",["it is going to crash","it's going to crash"],"gt","a","Look! means we see evidence now, so we predict with be going to: am/is/are going to + infinitive.",["crash","crashed","crashed"],"crash",0],
+["","(my grandfather / not / speak)","to his brother since 2015. They had an argument that year.",["my grandfather hasn't spoken","my grandfather has not spoken"],"prp","n","Since 2015 means it started in the past and is still true now: present perfect. Negative: has not/hasn't (he/she/it) + past participle.",["speak","spoke","spoken"],"spoken",1],
+["What","(you / read)","when I phoned you last night?",["were you reading"],"pastc","q","An action in progress at a specific moment in the past (interrupted by phoned): past continuous. Question: was/were + subject + verb-ing.",["read","read","read"],"reading",1]
+];
+var B=[["sangrar","bleed","bled","bled","Like feed – fed – fed: the -ee- becomes -e-."],["soplar","blow","blew","blown","Like grow – grew – grown, know and throw."],["prestar","lend","lent","lent","Like send – sent – sent and spend: -nd becomes -nt."],["hundir(se)","sink","sank","sunk","Like drink – drank – drunk, swim and sing: i – a – u."],["barrer","sweep","swept","swept","Like sleep – slept – slept and keep: -ee- becomes -e- + t."]];
+
+function norm(s){return s.toLowerCase().replace(/[’‘`´]/g,"'").replace(/[.!?,;]+$/,"").replace(/\s+/g," ").trim();}
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;");}
+function show(s){return esc(s.replace(/^(.)/,function(c){return c.toUpperCase()}));}
+function W(s,w){return new RegExp("\\b"+w.replace(/'/g,"'")+"(?![\\w'])").test(s);}
+
+function detect(s,v){
+  if(/\bwill\b.*\bhave been\b/.test(s))return "oth";
+  if(/\bwill\b.*\bhave\b/.test(s))return "fp";
+  if(/\bwill\b.*\bbe\b.*ing\b/.test(s))return "fc";
+  if(/\bwill\b|won't|'ll\b/.test(s))return "fw";
+  if(/going to/.test(s))return "gt";
+  if(/\b(did|didn't)\b/.test(s))return "ps";
+  if(/\b(do|does|don't|doesn't)\b/.test(s))return "pres";
+  if(/\b(have|has|haven't|hasn't)\b/.test(s))return /been\s+\w+ing\b/.test(s)?"prpc":"prp";
+  if(/\b(had|hadn't)\s+\w+/.test(s))return /\bhad been\b/.test(s)?"oth":"pp";
+  if(/\b(was|were|wasn't|weren't)\b/.test(s))return /ing\b/.test(s)?"pastc":"inc";
+  if(/\b(am|is|are|isn't|aren't)\b|'m\b|'s\b|'re\b/.test(s))return /ing\b/.test(s)?"pc":"inc";
+  var e=function(x){return s.slice(-x.length)===x};
+  if(e(v[2])&&v[2]!==v[1]&&v[2]!==v[0])return "inc";
+  if(e(v[1]))return "ps";
+  if(e(v[0]))return "pres";
+  if(/ing$/.test(s))return "inc";
+  return "?";
+}
+var AG=[["do","does"],["does","do"],["doesn't","don't"],["hasn't","haven't"],["has","have"],["have","has"],["were","was"],["was","were"],["are","is"],["is","are"]];
+function diag(q,input){
+  var s=norm(input),t=q[4],out=[];
+  if(!s)return ["You left this gap blank."];
+  var d=detect(s,q[7]);
+  if(d!==t){
+    if(d==="inc"||d==="?")out.push("The structure is incomplete or there is a spelling mistake. For the "+F[t][0]+" you need: "+F[t][1]+". Remember the auxiliary verb.");
+    else out.push("You used "+(d==="oth"?"a different tense":"the "+F[d][0])+", but this sentence needs the <b>"+F[t][0]+"</b> ("+F[t][1]+"). Look at the key words.");
+    return out;
+  }
+  var sub=q[1].replace(/[()]/g,"").split(" / ")[0].toLowerCase();
+  if(!new RegExp("(^|\\s)"+sub.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"(\\s|$)").test(s))out.push("Don't forget the subject (<b>"+esc(sub)+"</b>) in your answer.");
+  var neg=/\bnot\b|n't/.test(s);
+  if(q[5]==="n"&&!neg)out.push("This sentence is negative (not is in brackets): add <b>not</b> or <b>n't</b> after the auxiliary.");
+  if(q[5]!=="n"&&neg)out.push("This sentence is not negative, so don't use not / n't.");
+  var a=q[3][0],a0=a.split(" ")[0];
+  if(q[5]==="q"&&s.split(" ")[0]!==a0&&!/^(will|have|has|had|do|does|did|were|was|is|are)$/.test(s.split(" ")[0]))out.push("In questions the auxiliary goes BEFORE the subject: auxiliary + subject + verb. The first word here should be <b>"+a0+"</b>.");
+  var sx=q[5]==="q"?s.split(" ")[0]:s,ax=q[5]==="q"?a0:a;AG.forEach(function(p){if(W(ax,p[0])&&W(sx,p[1])&&!W(sx,p[0]))out.push("Subject-verb agreement: with <b>"+esc(sub)+"</b> you need <b>"+p[0]+"</b>, not "+p[1]+".");});
+  if(s.slice(-q[8].length)!==q[8])out.push("Wrong verb form. Here you need <b>"+q[8]+"</b> ("+(q[9]?q[7].join(" – ")+")":"check the form after the auxiliary)")+".");
+  if(!out.length)out.push("The tense is right, but check the spelling and the word order carefully.");
+  return out;
+}
+//UI
+var pa=document.getElementById("partA"),pb=document.getElementById("partB");
+A.forEach(function(q,i){
+  var d=document.createElement("div");d.className="q";
+  d.innerHTML='<div class="row"><span class="n">'+(i+1)+'.</span><div class="sent">'+esc(q[0])+' <input class="g" id="a'+i+'" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Answer '+(i+1)+'"> <span class="hint">'+esc(q[1])+'</span> '+esc(q[2])+'</div></div><div class="fb" id="f'+i+'" hidden></div>';
+  pa.appendChild(d);
+});
+B.forEach(function(r,i){
+  var tr=document.createElement("tr");
+  tr.innerHTML='<td><b>'+(i+1)+'.</b> '+r[0]+'</td>'+[1,2,3].map(function(k){return '<td><input class="g" id="b'+i+'_'+k+'" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="'+r[0]+' column '+k+'"></td>'}).join("");
+  pb.appendChild(tr);
+  var tf=document.createElement("tr");tf.id="bf"+i;tf.hidden=true;
+  tf.innerHTML='<td colspan="4" class="b-fb" id="bft'+i+'"></td>';
+  pb.appendChild(tf);
+});
+
+document.addEventListener("keydown",function(e){
+  if(e.key==="Enter"&&e.target.classList&&e.target.classList.contains("g")){
+    var all=[].slice.call(document.querySelectorAll("input.g")),i=all.indexOf(e.target);
+    if(all[i+1])all[i+1].focus();e.preventDefault();
+  }
+});
+
+var checked=false;
+function lock(el,v){el.readOnly=v;}
+var FN=["Infinitive","Past simple","Past participle"];
+
+document.getElementById("check").onclick=function(){
+  if(checked)return;
+  var all=[].slice.call(document.querySelectorAll("input.g")),empty=all.filter(function(x){return !x.value.trim()}).length;
+  if(empty&&!confirm("You have "+empty+" empty gap"+(empty>1?"s":"")+". Check anyway?"))return;
+  checked=true;var sa=0,sb=0;
+  A.forEach(function(q,i){
+    var el=document.getElementById("a"+i),fb=document.getElementById("f"+i);
+    var ok=q[3].indexOf(norm(el.value))>-1;
+    el.classList.add(ok?"ok":"bad");lock(el,true);
+    if(ok){sa++;fb.hidden=true;}
+    else{
+      fb.hidden=false;
+      fb.innerHTML='<div>✗ Correct answer: <b>'+q[3].map(show).join('</b> / <b>')+'</b></div>'+
+        diag(q,el.value).map(function(l){return '<div class="e">✎ '+l+'</div>'}).join('')+
+        '<div class="r"><b>Why:</b> '+q[6]+'</div>'+
+        (q[9]?'<div class="r"><b>Irregular verb:</b> '+q[7].join(' – ')+'</div>':'');
+    }
+  });
+  B.forEach(function(r,i){
+    var good=true,notes=[];
+    [1,2,3].forEach(function(k){
+      var el=document.getElementById("b"+i+"_"+k),v=norm(el.value),ok=v===r[k];
+      el.classList.add(ok?"ok":"bad");lock(el,true);
+      if(!ok){good=false;
+        var m=!v?"left blank":'you wrote “'+esc(v)+'”';
+        if(v&&/ed$/.test(v)&&!/ed$/.test(r[k]))m+=" (this verb is irregular: don't add -ed)";
+        notes.push('<div class="e">✎ '+FN[k-1]+': '+m+', correct: <b>'+r[k]+'</b></div>');}
+    });
+    if(good)sb++;
+    else{var f=document.getElementById("bf"+i);f.hidden=false;
+      document.getElementById("bft"+i).innerHTML='<div>✗ Correct: <b>'+r[1]+' – '+r[2]+' – '+r[3]+'</b></div>'+notes.join('')+'<div class="r"><b>Tip:</b> '+r[4]+'</div>';}
+  });
+  var t=sa+sb;
+  var g10=String(Math.round(t*5)/10);
+  document.getElementById("score").textContent=t+" / 20 · "+g10+" / 10";
+  var msg=t>=18?"Excellent work!":t>=15?"Very good!":t>=12?"Good job. Review the mistakes in red.":t>=10?"Passed. Check the tenses and verbs in red.":"Keep studying. Read the corrections in red and try again.";
+  var r=document.getElementById("res");r.style.display="block";
+  var n=document.getElementById("student").value.trim();
+  r.innerHTML='<div class="big" style="color:'+(t>=10?'var(--ok)':'var(--bad)')+'">'+t+' / 20</div><p><b>'+(n?esc(n)+' · ':'')+'</b>Part A: '+sa+' / 15 · Part B: '+sb+' / 5</p><p style="font:700 22px system-ui,Arial,sans-serif">Grade: '+g10+' / 10</p><p>'+msg+'</p>';
+  r.scrollIntoView({behavior:"smooth",block:"center"});
+};
+document.getElementById("reset").onclick=function(){
+  if(checked||[].some.call(document.querySelectorAll("input.g"),function(x){return x.value})){if(!confirm("Clear all answers and start again?"))return;}
+  document.querySelectorAll("input.g").forEach(function(x){x.value="";x.readOnly=false;x.className="g";});
+  document.querySelectorAll(".fb").forEach(function(x){x.hidden=true});
+  B.forEach(function(r,i){document.getElementById("bf"+i).hidden=true;});
+  document.getElementById("res").style.display="none";
+  document.getElementById("score").textContent="— / 20";checked=false;window.scrollTo({top:0,behavior:"smooth"});
+};
+document.getElementById("print").onclick=function(){window.print();};
+</script>
+</body>
+</html>
